@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Terravolt</title>
+<meta name="description" content="Jeu de gestion en bac à sable : agriculture, électricité, pêche et eau sur un territoire isométrique.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand"><div class="name" id="co-name">Terravolt</div><div class="meta" id="co-meta">—</div></div>
+    <div class="cos" id="cos" hidden></div>
+    <div class="kpis">
+      <div class="kpi cash" id="kpi-cash"><div class="l">Trésorerie</div><div class="v" id="k-cash">—</div><div class="d" id="k-cashd">—</div></div>
+      <div class="kpi"><div class="l">À encaisser</div><div class="v" id="k-recv">—</div><div class="d" id="k-recvd">—</div></div>
+      <div class="kpi"><div class="l">Dette bancaire</div><div class="v" id="k-debt">—</div><div class="d" id="k-debtd">—</div></div>
+      <div class="kpi"><div class="l" id="k-cal">Chiffre d’affaires</div><div class="v" id="k-ca">—</div><div class="d" id="k-cad">—</div></div>
+      <div class="kpi"><div class="l" id="k-resl">Résultat</div><div class="v" id="k-res">—</div><div class="d" id="k-resd">—</div></div>
+      <div class="kpi"><div class="l">Moral des équipes</div><div class="v" id="k-mor">—</div><div class="meterbar"><i id="k-morbar"></i></div></div>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Vitesse du jeu">
+        <button data-speed="0" aria-label="Pause">II</button>
+        <button data-speed="1">×1</button>
+        <button data-speed="2">×2</button>
+        <button data-speed="4">×4</button>
+        <button data-speed="8">×8</button>
+      </div>
+      <button class="iconbtn" id="snd" aria-pressed="true">Son : on</button>
+    </div>
+  </header>
+  <div class="main">
+    <div class="left">
+      <div class="stage">
+        <canvas id="map" aria-label="Carte isométrique de ton territoire"></canvas>
+        <div class="stage-tag"><span class="pill" id="p-season"></span><span class="pill" id="p-wx"></span><span class="pill" id="p-own"></span></div>
+        <div class="zoom"><button data-z="in" aria-label="Zoomer">+</button><button data-z="out" aria-label="Dézoomer">−</button><button data-z="fit">Recentrer</button></div>
+        <div class="paused-badge" id="paused" hidden>PAUSE</div>
+        <div class="hover-tip" id="hover" hidden></div>
+      </div>
+      <div class="strip">
+        <div class="box"><h4><span>Cours des marchés</span><span class="mono" id="chart-note">indice 100 = prix moyen</span></h4><canvas id="chart"></canvas><div class="chips" id="chips"></div></div>
+        <div class="box"><h4><span>Échéancier</span><span id="sched-note"></span></h4><ul class="sched" id="sched"></ul></div>
+      </div>
+    </div>
+    <aside class="side">
+      <div class="tabs" role="tablist">
+        <button class="tab on" data-tab="terrain">Terrain</button>
+        <button class="tab" data-tab="team">Équipe</button>
+        <button class="tab" data-tab="rd">R&amp;D</button>
+        <button class="tab" data-tab="market">Marché</button>
+        <button class="tab" data-tab="finance">Finance</button>
+        <button class="tab" data-tab="group" id="tab-group">Groupe</button>
+      </div>
+      <div class="pane" id="pane"></div>
+      <div class="log"><ul id="log"></ul></div>
+    </aside>
+  </div>
+</div>
+<div class="overlay" id="ov" hidden><div class="modal" id="modal"></div></div>
+<script src="engine.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>
