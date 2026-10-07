@@ -578,7 +578,9 @@ function paneMarket(){
     h+=`<div class="sec"><div class="sec-head"><h3>Production</h3></div><div class="row"><span>Semaine dernière</span><span class="mono">${num(c.last.mwh||0)} MWh</span></div><div class="row"><span>Prix spot</span><span class="mono">${num(G.px.elec,1)} €/MWh</span></div><div class="row"><span>Coût du gaz par MWh produit</span><span class="mono">${num(G.px.gaz/0.55+30,1)} €</span></div>${c.last.short?`<p class="hint neg">Contrats non couverts la semaine dernière : ${num(c.last.short)} MWh rachetés au marché.</p>`:''}</div>`;
   }
   const act=c.contracts;
-  h+=`<div class="sec"><div class="sec-head"><h3>Contrats en cours</h3></div>`;
+  const ppaTot=act.filter(k=>k.type==='ppa').reduce((a,k)=>a+k.mwh,0),fwdTot=act.filter(k=>k.type==='fwd').reduce((a,k)=>a+k.qty,0);
+  const totTxt=ppaTot?`${num(ppaTot)} MWh/sem. · ${pct(ppaTot/Math.max(1,c.last.mwh||1))} de ta production`:fwdTot?`${num(fwdTot)} t à livrer`:'';
+  h+=`<div class="sec"><div class="sec-head"><h3>Contrats en cours</h3><span class="x">${totTxt}</span></div>`;
   h+=act.length?act.map(k=>k.type==='fwd'?`<div class="row"><span>${k.client} · ${num(k.qty)} t de ${GOODS[k.good].name.toLowerCase()}</span><span class="mono">${k.price} €/t · S+${k.due-G.w}</span></div>`:`<div class="row"><span>${k.client} · ${num(k.mwh)} MWh/sem.</span><span class="mono">${k.price} €/MWh · ${k.weeks} sem.</span></div>`).join(''):'<p class="hint" style="margin:0">Aucun contrat. Tu vends tout au prix du marché.</p>';
   h+=`</div><div class="sec"><div class="sec-head"><h3>Offres reçues</h3></div><div class="list">`;
   h+=c.offers.length?c.offers.map(o=>o.type==='fwd'?`<div class="build"><span class="n">${o.client}</span><span class="c">${o.price} €/t</span><span class="d">Achète ${num(o.qty)} t de ${GOODS[o.good].name.toLowerCase()} livrées dans ${o.due-G.w} semaines. Cours actuel ${num(G.px[o.good])} €/t. Si ton stock manque, tu rachètes la différence au marché.</span><span class="d">${btn('offer:'+o.id,'Signer',false,'btn sm')}</span></div>`
