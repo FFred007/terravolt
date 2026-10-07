@@ -480,6 +480,7 @@ function elecWeek(G,c,nd){
     mwh+=m;spotRev+=m*spot*capF*c.fx.capture*trader;
   }
   // contracts
+  c.last.short=0;
   const need=c.contracts.filter(k=>k.type==='ppa').reduce((a,k)=>a+k.mwh,0);
   let ctrRev=0;
   for(const k of c.contracts.filter(k=>k.type==='ppa'))ctrRev+=k.mwh*k.price;
